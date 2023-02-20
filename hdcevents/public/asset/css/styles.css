@@ -54,10 +54,10 @@ header {
 
 /* Search Container */
 #search-container {
-  background-image: url("../../img/banner.jpg");
+  background-image: url("../img/banner.jpg");
   background-size: cover;
-  height: 400px;
   background-position: center;
+  height: 400px;
   padding: 50px;
   text-align: center;
 }
@@ -120,6 +120,21 @@ header {
 .card-participants {
   font-size: 14px;
   color: #757575;
+}
+
+/* Event create page */
+#event-create-container {
+  padding: 30px
+}
+
+#event-create-container label {
+  font-weight: bold;
+}
+
+#event-create-container input,
+#event-create-container select,
+#event-create-container textarea {
+  font-size: 12px;
 }
 
 /* footer */

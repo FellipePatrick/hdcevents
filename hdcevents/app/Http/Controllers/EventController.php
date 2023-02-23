@@ -69,13 +69,61 @@ class EventController extends Controller
         return view('events.show', ['event'=>$event]);
     }
 
+    public function edit($id){
+        $event = Event::findOrFail($id);
+        return view('events.edit', ['event'=>$event]);
+    }
 
+
+    public function destroy($id){
+        Event::findOrFail($id)->delete();
+        return redirect('/dashboard')->with('msg', 'Evento deletado com sucesso!');
+    }
+
+    public function upgrade(Request $request, $id){
+   
+        $data = $request->all();
+
+        $event = Event::findOrFail($id);
+
+        if($request->hasFile('image') && $request->file('image')->isValid()) {
+
+            $requestImage = $request->image;
+
+            $extension = $requestImage->extension();
+    
+            $imageName = md5($requestImage->getClientOriginalName() . strtotime("now")) . "." . $extension;
+    
+            $requestImage->move(public_path('img/events'), $imageName);
+    
+            $data['image'] = $imageName;
+    
+        }
+
+        if($request->date == ''){
+            $data['date'] = $event->date;
+        }
+        Event::findOrFail($id)->update($data);
+        return redirect('/dashboard')->with('msg', 'Evento Editado com sucesso!');
+    }
     public function dashboard(){
         $user = auth()->user();
 
         $events = $user->events;
         
         return view('events.dashboard', ['events'=>$events]);
+
+    }
+
+    public function joinEvent($id) {
+
+        $user = auth()->user();
+
+        $user->eventsAsParticipant()->attach($id);
+
+        $event = Event::findOrFail($id);
+
+        return redirect('/dashboard')->with('msg', 'Sua presença está confirmada no evento ' . $event->title);
 
     }
 

@@ -2,6 +2,7 @@
 
 @section('title', $event->title)
 
+
 @section('content')
 
   <div class="col-md-10 offset-md-1">
